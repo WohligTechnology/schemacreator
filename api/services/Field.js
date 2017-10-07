@@ -15,9 +15,9 @@ var schema = new Schema({
         unique: true,
         uniqueCaseInsensitive: true
     },
-    collection: {
+    dbcollection: {
         type: Schema.Types.ObjectId,
-        ref: "Collection"
+        ref: "Dbcollections"
     },
     type: {
         type: String,

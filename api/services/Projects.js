@@ -42,6 +42,10 @@ var schema = new Schema({
         required: true,
         unique: true,
         uniqueCaseInsensitive: true
+    },
+    git: {
+        type: String,
+        required: true,
     }
 });
 
