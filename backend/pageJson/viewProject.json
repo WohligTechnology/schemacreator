@@ -1,0 +1,71 @@
+{
+    "title": "Project",
+    "description": "List of Projects",
+    "pageType": "view",
+    "sendIdWithCreate": true,
+    "urlFields": ["_id"],
+    "fields": [{
+        "name": "Name",
+        "isSort": "",
+        "tableRef": "name"
+    }, {
+        "name": "Git Name",
+        "isSort": "",
+        "tableRef": "gitName"
+    }, {
+        "name": "Development URL",
+        "isSort": "",
+        "tableRef": "developmentUrl"
+    }, {
+        "name": "Production URL",
+        "isSort": "",
+        "tableRef": "productionUrl"
+    }],
+    "action": [{
+        "name": "edit",
+        "icon": "fa-pencil",
+        "buttonClass": "btn-primary",
+        "type": "page",
+        "action": "editProject",
+        "fieldsToSend": {
+            "_id": "_id"
+        }
+    }, {
+        "name": "delete",
+        "icon": "fa-trash",
+        "buttonClass": "btn-danger",
+        "type": "apiCallConfirm",
+        "title": "Delete Project",
+        "content": "Are you sure you want to delete Project?",
+        "api": "Project/delete",
+        "fieldsToSend": {
+            "name": "_id",
+            "value": "_id"
+        }
+    }],
+    "button": [{
+        "name": "Excel Export",
+        "icon": "print",
+        "class": "btn-danger",
+        "type": "redirect",
+        "action": "Project/generateExcel",
+        "linkType": "admin"
+    }, {
+        "name": "Upload Excel",
+        "icon": "delete",
+        "class": "btn-warning",
+        "type": "redirect",
+        "action": "excel-upload/Project",
+        "linkType": "internal"
+    }, {
+        "name": "Create",
+        "icon": "plus",
+        "class": "btn-success",
+        "type": "page",
+        "action": "createProject"
+    }],
+    "apiCall": {
+        "url": "Project/search",
+        "params": "_id"
+    }
+}

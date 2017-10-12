@@ -15,25 +15,21 @@ var schema = new Schema({
         unique: true,
         uniqueCaseInsensitive: true
     },
-    collection: {
-        type: Schema.Types.ObjectId,
-        ref: "Collection"
-    },
     type: {
-        type: String,
+        type: String
 
     },
     validations: {
-        type: String,
+        type: String
 
     },
     json: {
-        type: JSON,
+        type: JSON
 
     },
     order: {
         type: String,
-        required: true,
+        required: true
 
     },
     isView: {

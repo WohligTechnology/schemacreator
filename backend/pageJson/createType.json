@@ -1,0 +1,89 @@
+{
+    "title": "Create Field",
+    "name": "Field",
+    "jsonPage": "viewField",
+    "desciption": "",
+    "pageType": "create",
+    "urlFields": ["Field"],
+    "fields": [{
+        "name": "Name",
+        "type": "text",
+        "tableRef": "name",
+        "placeholder": "Enter Name",
+        "id": "name",
+        "validation": ["required", "trim", "unique"],
+        "url": ""
+    }, {
+        "name": "Git Name",
+        "type": "text",
+        "tableRef": "gitName",
+        "placeholder": "Enter Git Name",
+        "id": "gitName",
+        "validation": ["", "trim", ""],
+        "url": ""
+    }, {
+        "name": "Description",
+        "isSort": "",
+        "tableRef": "description",
+        "type": "wysiwyg",
+        "placeholder": "Enter Description",
+        "id": "input1",
+        "validation": ["", "trim", ""],
+        "url": ""
+    }, {
+        "name": "Mock URL",
+        "type": "text",
+        "tableRef": "mockUrl",
+        "placeholder": "Enter Mock URL",
+        "id": "mockURL",
+        "validation": ["", "trim", ""],
+        "url": ""
+    }, {
+        "name": "Development URL",
+        "type": "text",
+        "tableRef": "developmentUrl",
+        "placeholder": "Enter Development URL",
+        "id": "developmentUrl",
+        "validation": ["", "trim", ""],
+        "url": ""
+    }, {
+        "name": "Testing URL",
+        "type": "text",
+        "tableRef": "testingUrl",
+        "placeholder": "Enter Testing URL",
+        "id": "testingUrl",
+        "validation": ["", "trim", ""],
+        "url": ""
+    }, {
+        "name": "Production URL",
+        "type": "text",
+        "tableRef": "productionUrl",
+        "placeholder": "Enter Production URL",
+        "id": "productionUrl",
+        "validation": ["", "trim", ""],
+        "url": ""
+    }],
+    "action": [{
+        "name": "submit",
+        "action": "submitField",
+        "stateName": {
+            "page": "page",
+            "json": {
+                "id": "viewField"	
+
+            }
+        }
+    }, {
+        "name": "cancel",
+        "sideMenuRedirect": true,
+        "stateName": {
+            "page": "page",
+            "json": {
+                "id": "viewField"
+            }
+        }
+    }],
+    "apiCall": {
+        "url": "Field/save"
+    }
+}

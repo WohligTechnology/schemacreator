@@ -1,0 +1,107 @@
+{
+    "title": "Create Collection",
+    "name": "Collection",
+    "jsonPage": "viewCollection",
+    "desciption": "",
+    "pageType": "create",
+    "urlFields": ["Collection"],
+    "fields": [{
+        "name": "Name",
+        "type": "text",
+        "tableRef": "name",
+        "placeholder": "Enter Name",
+        "id": "name",
+        "validation": ["required", "trim", "unique"],
+        "url": ""
+    }, {
+        "name": "Project",
+        "type": "tags",
+        "tableRef": "project",
+        "dropDownType": "single",
+        "dropDownField": "name",
+        "searchApi": "searchCall",
+        "placeholder": "Select Project",
+        "id": "input1",
+        "validation": ["", "trim", ""],
+        "url": "Project/search"
+    }, {
+        "name": "Order",
+        "type": "text",
+        "tableRef": "order",
+        "placeholder": "Enter Order",
+        "id": "order",
+        "validation": ["", "trim", ""],
+        "url": ""
+    }, {
+        "name": "Is Delete",
+        "type": "tags",
+        "tableRef": "isDelete",
+        "placeholder": "Enter Is Delete",
+        "id": "isDelete",
+        "validation": ["", "trim", ""],
+        "url": "",
+        "dropDownField": "",
+        "dropDownType": "single",
+        "onView": true,
+        "dropDown": ["true", "false"]
+    }, {
+        "name": "Is Edit",
+        "type": "tags",
+        "tableRef": "isEdit",
+        "placeholder": "Enter Is Edit",
+        "id": "isEdit",
+        "validation": ["", "trim", ""],
+        "url": "",
+        "dropDownField": "",
+        "dropDownType": "single",
+        "onView": true,
+        "dropDown": ["true", "false"]
+    }, {
+        "name": "Is Excel Import",
+        "type": "tags",
+        "tableRef": "isExcelImport",
+        "placeholder": "Enter Is Excel Import",
+        "id": "isExcelImport",
+        "validation": ["", "trim", ""],
+        "url": "",
+        "dropDownField": "",
+        "dropDownType": "single",
+        "onView": true,
+        "dropDown": ["true", "false"]
+    }, {
+        "name": "Is Excel Export",
+        "type": "tags",
+        "tableRef": "isExcelExport",
+        "placeholder": "Enter Is Excel Export",
+        "id": "isExcelExport",
+        "validation": ["", "trim", ""],
+        "url": "",
+        "dropDownField": "",
+        "dropDownType": "single",
+        "onView": true,
+        "dropDown": ["true", "false"]
+    }],
+    "action": [{
+        "name": "submit",
+        "action": "submitCollection",
+        "stateName": {
+            "page": "page",
+            "json": {
+                "id": "viewCollection"	
+
+            }
+        }
+    }, {
+        "name": "cancel",
+        "sideMenuRedirect": true,
+        "stateName": {
+            "page": "page",
+            "json": {
+                "id": "viewCollection"
+            }
+        }
+    }],
+    "apiCall": {
+        "url": "Collection/save"
+    }
+}

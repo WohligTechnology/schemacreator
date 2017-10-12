@@ -22,5 +22,5 @@ module.exports = {
     // }
     port: 80,
     realHost: "http://wohlig.io",
-    emails: ["chintan@wohlig.com", "jagruti@wohlig.com", "tushar@wohlig.com", "chirag@wohlig.com", "harsh@wohlig.com"]
+    emails: ["chintan@wohlig.com", "jagruti@wohlig.com", "tushar@wohlig.com", "chirag@wohlig.com", "harsh@wohlig.com", "avinash.ghare@wohlig.com"]
 };

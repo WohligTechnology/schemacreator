@@ -76,11 +76,15 @@
   "author": "wohlig",
   "license": "",
   "devDependencies": {
+    "assert": "^1.4.1",
     "grunt-browser-sync": "^2.2.0",
     "grunt-contrib-htmlmin": "^2.0.0",
     "grunt-ejs-compile": "0.0.1",
     "grunt-ejs-locals": "^0.1.1",
     "grunt-http": "^2.0.1",
-    "grunt-postcss": "^0.8.0"
+    "grunt-mocha-istanbul": "^5.0.2",
+    "grunt-postcss": "^0.8.0",
+    "mocha": "^3.5.3",
+    "sinon": "^3.3.0"
   }
 }

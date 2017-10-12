@@ -15,42 +15,46 @@ var schema = new Schema({
         unique: true,
         uniqueCaseInsensitive: true
     },
-    project: {
-        type: Schema.Types.ObjectId,
-        ref: "Project"
+    description: {
+        type: String
     },
-    order: {
+    gitName: {
+        type: String
+    },
+    user: {
+        type: Schema.Types.ObjectId,
+        ref: "User"
+    },
+    mockUrl: {
         type: String,
         required: true,
         unique: true,
         uniqueCaseInsensitive: true
     },
-    isDelete: {
-        type: Boolean,
-        default: true,
-        enum: [true, false]
+    developmentUrl: {
+        type: String,
+        required: true,
+        unique: true,
+        uniqueCaseInsensitive: true
     },
-    isEdit: {
-        type: Boolean,
-        default: true,
-        enum: [true, false]
+    testingUrl: {
+        type: String,
+        required: true,
+        unique: true,
+        uniqueCaseInsensitive: true
     },
-    isExcelImport: {
-        type: Boolean,
-        default: true,
-        enum: [true, false]
-    },
-    isExcelExport: {
-        type: Boolean,
-        default: true,
-        enum: [true, false]
+    productionUrl: {
+        type: String,
+        required: true,
+        unique: true,
+        uniqueCaseInsensitive: true
     }
 });
 
 schema.plugin(deepPopulate, {});
 schema.plugin(uniqueValidator);
 schema.plugin(timestamps);
-module.exports = mongoose.model('Collections', schema);
+module.exports = mongoose.model('Project', schema);
 
 var exports = _.cloneDeep(require("sails-wohlig-service")(schema));
 var model = {};

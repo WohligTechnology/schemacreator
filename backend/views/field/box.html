@@ -15,20 +15,42 @@
                 </tr>
             </thead>
             <tbody>
+                <!--{{type.fields}}-->
                 <tr ng-repeat="data in model | filter:search.text ">
+                    
                     <td ng-repeat="field2 in type.fields" ng-if="field2.onView && field2.type == 'selectFromTable'"> {{data[field2.tableRef+'-nameOnly']}}</td>
                     <td ng-repeat="field2 in type.fields" ng-if="field2.onView && field2.type != 'selectFromTable'">
                         <view-field type="field2" value="data"></view-field>
+                    
+                    <!--<td ng-if="field2.onView" ng-repeat="field2 in type.fields track by $index">
+                        {{field2}}
+                        <img ng-if="field2.type == 'image' && field2.type!='tags'" ng-src="{{data[field2.tableRef] | serverimage}}">
+                        <div ng-if="field2.type != 'image' && field2.type!='tags'">{{data[field2.tableRef]}}</div>
+                        <div ng-if="field2.type=='tags' && field2.type != 'image' && field2.tableRef!='isCorrect'">{{data[field2.tableRef].name}}</div>
+                        <div ng-if="field2.tableRef=='isCorrect' && field2.type != 'image'">{{data[field2.tableRef]}}</div>-->
+
+                        <!--<img ng-if="field2.type == 'image' && field2.type!='tags'" ng-src="{{data[field2.tableRef] | serverimage}}">-->
+
+                        <!--<div ng-if="field2.type != 'image' && field2.tableRef!='course' && field2.tableRef!='instructor'">{{data[field2.tableRef]}}</div>
+                        <div ng-if="field2.tableRef=='course' && field2.type != 'image' && field2.tableRef!='instructor'">{{data[field2.tableRef].name}}</div>
+                        <div ng-if="field2.tableRef=='instructor' && field2.type != 'image' && field2.tableRef!='course'">{{data[field2.tableRef].name}}</div>-->
+
+                        <!--<div ng-if="field2.tableRef=='instructor' && field2.type != 'image' && field2.tableRef!='course'">{{data[field2.tableRef].name}}</div>-->
+
+
+
+                        <!--<img ng-if="field2.type == 'image' && field2.tableRef!='course'" ng-src="{{data[field2.tableRef] | serverimage}}">
+                        <div ng-if="field2.type != 'image' && field2.tableRef!='course'">{{data[field2.tableRef]}}</div>
+                        <div ng-if="field2.tableRef=='course' && field2.type != 'image'">{{data[field2.tableRef].name}}</div>-->
                     </td>
                     <td>
-                        <td>
-                            <a class="btn btn-primary" ng-click="editBox('Edit',data)">
+                        <a class="btn btn-primary" ng-click="editBox('Edit',data)">
                                 <i class="fa fa-pencil"></i>
                             </a>
-                            <a class="btn btn-danger" ng-click="deleteBox($index, model)">
+                        <a class="btn btn-danger" ng-click="deleteBox($index, model)">
                                 <i class="fa fa-trash"></i>
                             </a>
-                        </td>
+                    </td>
                 </tr>
             </tbody>
         </table>

@@ -1,0 +1,187 @@
+{
+    "title": "Edit Collection",
+    "name": "Collection",
+    "jsonPage": "viewCollection",
+    "desciption": "",
+    "pageType": "edit",
+    "urlFields": ["_id"],
+    "fields": [{
+        "name": "Name",
+        "type": "text",
+        "tableRef": "name",
+        "placeholder": "Enter Name",
+        "id": "name",
+        "validation": ["required", "trim", "unique"],
+        "url": ""
+    }, {
+        "name": "Project",
+        "type": "tags",
+        "tableRef": "project",
+        "dropDownType": "single",
+        "dropDownField": "name",
+        "searchApi": "searchCall",
+        "placeholder": "Select Project",
+        "id": "input1",
+        "validation": ["", "trim", ""],
+        "url": "Project/search"
+    }, {
+        "name": "Order",
+        "type": "text",
+        "tableRef": "order",
+        "placeholder": "Enter Order",
+        "id": "order",
+        "validation": ["", "trim", ""],
+        "url": ""
+    }, {
+        "name": "Is Delete",
+        "type": "tags",
+        "tableRef": "isDelete",
+        "placeholder": "Enter Is Delete",
+        "id": "isDelete",
+        "validation": ["", "trim", ""],
+        "url": "",
+        "dropDownField": "",
+        "dropDownType": "single",
+        "onView": true,
+        "dropDown": ["true", "false"]
+    }, {
+        "name": "Is Edit",
+        "type": "tags",
+        "tableRef": "isEdit",
+        "placeholder": "Enter Is Edit",
+        "id": "isEdit",
+        "validation": ["", "trim", ""],
+        "url": "",
+        "dropDownField": "",
+        "dropDownType": "single",
+        "onView": true,
+        "dropDown": ["true", "false"]
+    }, {
+        "name": "Is Excel Import",
+        "type": "tags",
+        "tableRef": "isExcelImport",
+        "placeholder": "Enter Is Excel Import",
+        "id": "isExcelImport",
+        "validation": ["", "trim", ""],
+        "url": "",
+        "dropDownField": "",
+        "dropDownType": "single",
+        "onView": true,
+        "dropDown": ["true", "false"]
+    }, {
+        "name": "Is Excel Export",
+        "type": "tags",
+        "tableRef": "isExcelExport",
+        "placeholder": "Enter Is Excel Export",
+        "id": "isExcelExport",
+        "validation": ["", "trim", ""],
+        "url": "",
+        "dropDownField": "",
+        "dropDownType": "single",
+        "onView": true,
+        "dropDown": ["true", "false"]
+    }, {
+        "name": "Collection Fields",
+        "type": "box",
+        "tableRef": "collectionFields",
+        "validation": ["", "trim", ""],
+        "fields": [{
+            "name": "Name",
+            "type": "text",
+            "tableRef": "name",
+            "onView": true,
+            "placeholder": "Enter Name",
+            "id": "name",
+            "validation": ["", "trim", ""],
+            "url": ""
+        }, {
+            "name": "Type",
+            "type": "text",
+            "tableRef": "type",
+            "placeholder": "Enter Type",
+            "id": "type",
+            "validation": ["", "trim", ""],
+            "url": "",
+            "onView": true
+        }, {
+            "name": "Validations",
+            "type": "text",
+            "tableRef": "validations",
+            "placeholder": "Enter Validations",
+            "id": "validations",
+            "validation": ["", "trim", ""],
+            "url": "",
+            "onView": true
+        }, {
+            "name": "Json",
+            "type": "text",
+            "tableRef": "json",
+            "placeholder": "Enter Json",
+            "id": "json",
+            "validation": ["", "trim", ""],
+            "url": "",
+            "onView": true
+        }, {
+            "name": "Order",
+            "type": "text",
+            "tableRef": "order",
+            "placeholder": "Enter Order",
+            "id": "order",
+            "validation": ["", "trim", ""],
+            "url": "",
+            "onView": true
+        }, {
+            "name": "Is View",
+            "type": "tags",
+            "tableRef": "isView",
+            "placeholder": "Enter Is View",
+            "id": "isView",
+            "validation": ["", "trim", ""],
+            "url": "",
+            "dropDownField": "",
+            "dropDownType": "single",
+            "onView": true,
+            "dropDown": ["true", "false"]
+        }, {
+            "name": "Is Hidden",
+            "type": "tags",
+            "tableRef": "isHidden",
+            "placeholder": "Enter Is Hidden",
+            "id": "isHidden",
+            "validation": ["", "trim", ""],
+            "url": "",
+            "dropDownField": "",
+            "dropDownType": "single",
+            "onView": true,
+            "dropDown": ["true", "false"]
+        }]
+    }],
+    "action": [{
+        "name": "submit",
+        "action": "submitCollection",
+        "stateName": {
+            "page": "page",
+            "json": {
+                "id": "viewCollection"
+            }
+        }
+    }, {
+        "name": "cancel",
+        "sideMenuRedirect": true,
+        "stateName": {
+            "page": "page",
+            "json": {
+                "id": "viewCollection"
+            }
+        }
+    }],
+    "apiCall": {
+        "url": "Collection/save",
+        "params": "_id"
+    },
+    "preApi": {
+        "url": "Collection/getOne",
+        "params": "_id"
+    }
+
+}
