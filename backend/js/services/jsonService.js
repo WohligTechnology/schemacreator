@@ -111,6 +111,18 @@ myApp.service('JsonService', function ($http, TemplateService, $state, toastr, $
             });
           }
         });
+      }else if (action && action.type == "generateProject") {
+        NavigationService.delete(action.api, value, function (data) {
+          console.log(data);
+              if (data.value) {
+                toastr.success(JsonService.json.title + " Project Created successfully.", JsonService.json.title + "Project Created");
+                JsonService.refreshView();
+              } else {
+                toastr.error("There was an error while creating " + JsonService.json.title, JsonService.json.title + " Project Creation Error");
+              }
+            });
+          
+        
       }
     }
   };

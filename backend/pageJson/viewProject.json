@@ -42,6 +42,16 @@
             "name": "_id",
             "value": "_id"
         }
+    },{
+        "name": "Generate Project",
+        "icon": "fa-file",
+        "buttonClass": "btn-warning",
+        "type": "generateProject",
+        "title": "Generate Project",
+        "api": "Project/generateProject",
+        "fieldsToSend": {
+            "_id": "_id"
+        }
     }],
     "button": [{
         "name": "Excel Export",

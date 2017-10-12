@@ -85,7 +85,44 @@ schema.plugin(deepPopulate, {
 schema.plugin(uniqueValidator);
 schema.plugin(timestamps);
 module.exports = mongoose.model('Collection', schema);
-
-var exports = _.cloneDeep(require("sails-wohlig-service")(schema,"project","project"));
-var model = {};
+var fs = require('fs');
+var exports = _.cloneDeep(require("sails-wohlig-service")(schema,"project type","project type"));
+var model = {generateProject: (data,cb)=>{
+    Collection.find({
+        "project":data._id
+    }).exec((err,result)=>{
+        if(err || _.isEmpty(result)){
+            console.log("error:", err);
+            console.log("result",result);
+            cb("there was some error");
+        }else{
+            // console.log("collectiondata$$$$$$$$$$$$$$$$$",result);
+            var obj = {};
+            obj.fields = [];
+            obj.fields[0]={};
+            obj.action = [];
+            obj.action[0] ={};
+            console.log(obj)
+            obj.title = "viewJSON";
+            obj.description = "list of json";
+            obj.pageType = "view",
+            obj.sendIdWithCreate = true,
+            obj.urlFields = ["_id"],
+            obj.fields[0].name= "Name";
+            obj.fields[0].isSort= ""
+            obj.fields[0].tableRef= "name"
+            obj.action[0].name= "edit"
+            obj.action[0].icon= "fa-pencil",
+            obj.action[0].buttonClass= "btn-primary",
+            obj.action[0].type= "page",
+            obj.action[0].action= "editProject",
+            obj.action[0].fieldsToSend= {
+                "_id": "_id"
+            }
+            var json = JSON.stringify(obj); 
+            fs.writeFile('CREATEDJSON/myjsonfile.json', json);
+            cb(null,result)
+        }
+    })
+}};
 module.exports = _.assign(module.exports, exports, model);
