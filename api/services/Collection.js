@@ -96,31 +96,6 @@ var model = {generateProject: (data,cb)=>{
             console.log("result",result);
             cb("there was some error");
         }else{
-            // console.log("collectiondata$$$$$$$$$$$$$$$$$",result);
-            // var obj = {};
-            // obj.fields = [];
-            // obj.fields[0]={};
-            // obj.action = [];
-            // obj.action[0] ={};
-            // console.log(obj)
-            // obj.title = "viewJSON";
-            // obj.description = "list of json";
-            // obj.pageType = "view",
-            // obj.sendIdWithCreate = true,
-            // obj.urlFields = ["_id"],
-            // obj.fields[0].name= "Name";
-            // obj.fields[0].isSort= ""
-            // obj.fields[0].tableRef= "name"
-            // obj.action[0].name= "edit"
-            // obj.action[0].icon= "fa-pencil",
-            // obj.action[0].buttonClass= "btn-primary",
-            // obj.action[0].type= "page",
-            // obj.action[0].action= "editProject",
-            // obj.action[0].fieldsToSend= {
-            //     "_id": "_id"
-            // }
-            // var json = JSON.stringify(obj); 
-            // fs.writeFile('CREATEDJSON/myjsonfile.json', json);
             async.each(result,(collection,callback)=>{
                 async.parallel({
                     view: function(callback){
