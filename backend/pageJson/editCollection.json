@@ -96,13 +96,15 @@
             "url": ""
         }, {
             "name": "Type",
-            "type": "text",
+            "type": "tags",
             "tableRef": "type",
-            "placeholder": "Enter Type",
-            "id": "type",
+            "dropDownType": "single",
+            "dropDownField": "name",
+            "searchApi": "searchCall",
+            "placeholder": "Select Type",
+            "id": "Type",
             "validation": ["", "trim", ""],
-            "url": "",
-            "onView": true
+            "url": "Types/search"
         }, {
             "name": "Validations",
             "type": "text",

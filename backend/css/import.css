@@ -2485,7 +2485,6 @@ html[xmlns] .flexslider .slides {
   overflow: visible;
   clip: auto; }
 
-
 .fancybox-enabled {
   overflow: hidden; }
 
@@ -3234,7 +3233,6 @@ html[xmlns] .flexslider .slides {
   .fancybox-thumbs > ul > li.fancybox-thumbs-active:before {
     opacity: 1; } }
 
->>>>>>> 8498dba1f61df14f92d34901e345114166118aab
 /*!
  * ui-select
  * http://github.com/angular-ui/ui-select

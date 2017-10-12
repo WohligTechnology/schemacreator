@@ -1,10 +1,10 @@
 {
-    "title": "Create Type",
+    "title": "Edit Type",
     "name": "Type",
     "jsonPage": "viewType",
     "desciption": "",
-    "pageType": "create",
-    "urlFields": ["Type"],
+    "pageType": "edit",
+    "urlFields": ["_id"],
     "fields": [{
         "name": "Name",
         "type": "text",
@@ -71,8 +71,7 @@
         "stateName": {
             "page": "page",
             "json": {
-                "id": "viewType"	
-
+                "id": "viewType"
             }
         }
     }, {
@@ -86,6 +85,12 @@
         }
     }],
     "apiCall": {
-        "url": "Types/save"
+        "url": "Types/save",
+        "params": "_id"
+    },
+    "preApi": {
+        "url": "Types/getOne",
+        "params": "_id"
     }
+
 }

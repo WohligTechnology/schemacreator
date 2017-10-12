@@ -22,13 +22,11 @@ var schema = new Schema({
     },
     isPrimary: {
         type: Boolean,
-        default: true,
-        enum: [true, false]
+        default: true
     },
     input: {
-        type: JSON,
-        required: true,
-
+        type: JSON
+        
     },
     SchemaJson: {
         type: JSON,
@@ -38,19 +36,19 @@ var schema = new Schema({
     SchamaPageJsonView: {
         type: Boolean,
         default: true,
-        enum: [true, false]
+        
 
     },
     SchamaPageJsonCreate: {
         type: Boolean,
         default: true,
-        enum: [true, false]
+       
 
     },
     SchamaPageJsonEdit: {
         type: Boolean,
         default: true,
-        enum: [true, false]
+       
 
     }
 });

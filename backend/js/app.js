@@ -75,11 +75,7 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locat
             controller: 'SchemaCreatorCtrl'
         })
 
-        .state('create-project', {
-            url: "/create-project",
-            templateUrl: "views/template.html",
-            controller: 'ProjectCtrl',
-        })
+       
         .state('excel-upload', {
             url: "/excel-upload/:model",
             templateUrl: "views/template.html",

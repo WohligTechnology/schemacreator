@@ -355,6 +355,7 @@ myApp.controller('DashboardCtrl', function ($scope, TemplateService, NavigationS
 
         $scope.saveData = function (formData) {
             NavigationService.apiCall($scope.json.json.apiCall.url, formData, function (data) {
+                console.log(data)
                 var messText = "created";
                 if (data.value === true) {
                     $scope.json.json.action[0].stateName.json.keyword = "";

@@ -20,7 +20,12 @@ myApp.factory('NavigationService', function ($http) {
         name: "Collection",
         classis: "active",
         sref: "#!/page/viewCollection//",
-        icon: "user"
+        icon: "file"
+    },{
+        name: "Types",
+        classis: "active",
+        sref: "#!/page/viewType//",
+        icon: "file"
     }];
 
     return {
