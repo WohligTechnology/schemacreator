@@ -97,31 +97,113 @@ var model = {generateProject: (data,cb)=>{
             cb("there was some error");
         }else{
             // console.log("collectiondata$$$$$$$$$$$$$$$$$",result);
-            var obj = {};
-            obj.fields = [];
-            obj.fields[0]={};
-            obj.action = [];
-            obj.action[0] ={};
-            console.log(obj)
-            obj.title = "viewJSON";
-            obj.description = "list of json";
-            obj.pageType = "view",
-            obj.sendIdWithCreate = true,
-            obj.urlFields = ["_id"],
-            obj.fields[0].name= "Name";
-            obj.fields[0].isSort= ""
-            obj.fields[0].tableRef= "name"
-            obj.action[0].name= "edit"
-            obj.action[0].icon= "fa-pencil",
-            obj.action[0].buttonClass= "btn-primary",
-            obj.action[0].type= "page",
-            obj.action[0].action= "editProject",
-            obj.action[0].fieldsToSend= {
-                "_id": "_id"
-            }
-            var json = JSON.stringify(obj); 
-            fs.writeFile('CREATEDJSON/myjsonfile.json', json);
-            cb(null,result)
+            // var obj = {};
+            // obj.fields = [];
+            // obj.fields[0]={};
+            // obj.action = [];
+            // obj.action[0] ={};
+            // console.log(obj)
+            // obj.title = "viewJSON";
+            // obj.description = "list of json";
+            // obj.pageType = "view",
+            // obj.sendIdWithCreate = true,
+            // obj.urlFields = ["_id"],
+            // obj.fields[0].name= "Name";
+            // obj.fields[0].isSort= ""
+            // obj.fields[0].tableRef= "name"
+            // obj.action[0].name= "edit"
+            // obj.action[0].icon= "fa-pencil",
+            // obj.action[0].buttonClass= "btn-primary",
+            // obj.action[0].type= "page",
+            // obj.action[0].action= "editProject",
+            // obj.action[0].fieldsToSend= {
+            //     "_id": "_id"
+            // }
+            // var json = JSON.stringify(obj); 
+            // fs.writeFile('CREATEDJSON/myjsonfile.json', json);
+            async.each(result,(collection,callback)=>{
+                async.parallel({
+                    view: function(callback){
+                        var viewobj = {};
+                        viewobj.fields = [];
+                        viewobj.action = [];
+                        viewobj.title = "view"+collection.name;
+                        viewobj.description = "list of "+collection.name;
+                        viewobj.pageType = "view";
+                        viewobj.sendIdWithCreate = true;
+                        viewobj.urlFields = ["_id"];
+                        for(var i=0;i<=collection.collectionFields.length - 1;i++){
+                            if(collection.collectionFields[i].isView === true){
+                                var vft = {}
+                                vft.name = collection.collectionFields[i].name;
+                                vft.isSort= "";
+                                vft.tableRef = collection.collectionFields[i].name;
+                                viewobj.fields.push(vft);
+                            }
+                          
+                        }
+                        callback(null,viewobj);
+                    },
+                    create: function(callback){
+                        var createobj = {};
+                        createobj.fields = [];
+                        createobj.action = [];
+                        createobj.title = "create"+collection.name;
+                        createobj.description = "";
+                        createobj.pageType = "create";
+                        createobj.sendIdWithCreate = true;
+                        createobj.urlFields = ["_id"];
+                        for(var i=0;i<=collection.collectionFields.length - 1;i++){
+                                var cft = {}
+                                cft.name = collection.collectionFields[i].name;
+                                cft.isSort= "";
+                                cft.tableRef = collection.collectionFields[i].name;
+                                createobj.fields.push(cft);
+                            }
+                            callback(null,createobj);
+                    },
+                    edit: function(callback){
+                        var editobj = {};
+                        editobj.fields = [];
+                        editobj.action = [];
+                        editobj.title = "edit"+collection.name;
+                        editobj.description = "";
+                        editobj.pageType = "edit";
+                        editobj.sendIdWithCreate = true;
+                        editobj.urlFields = ["_id"];
+                        for(var i=0;i<=collection.collectionFields.length - 1;i++){
+                            var eft = {}
+                            eft.name = collection.collectionFields[i].name;
+                            eft.isSort= "";
+                            eft.tableRef = collection.collectionFields[i].name;
+                            editobj.fields.push(eft);
+                        }
+                        callback(null,editobj);
+                    }
+                },function(err, collectionresults){
+                    if(err){
+                        cb(err);
+                    }else{
+                        console.log("executing filestream",collectionresults.view)
+                    
+                        var json = JSON.stringify(collectionresults.view); 
+                        fs.writeFile('CREATEDJSON/'+collectionresults.view.title+'.json', json);
+                        var json = JSON.stringify(collectionresults.create); 
+                        fs.writeFile('CREATEDJSON/'+collectionresults.create.title+'.json', json);
+                        var json = JSON.stringify(collectionresults.edit); 
+                        fs.writeFile('CREATEDJSON/'+collectionresults.edit.title+'.json', json);
+                    
+                }
+                })
+                callback();
+            },function(err){
+                if(err){
+                    cb(err);
+                }else{
+                    cb(null,result)
+                }
+            })
+           
         }
     })
 }};
