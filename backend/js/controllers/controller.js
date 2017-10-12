@@ -76,13 +76,7 @@ myApp.controller('DashboardCtrl', function ($scope, TemplateService, NavigationS
         }, 5000);
 
     })
-    .controller('ProjectCtrl', function ($scope, TemplateService, NavigationService, $timeout, $state) {
-        //Used to name the .html file
-        $scope.template = TemplateService.changecontent("project");
-        $scope.menutitle = NavigationService.makeactive("create-project");
-        TemplateService.title = $scope.menutitle;
-        $scope.navigation = NavigationService.getnav();
-    })
+
     .controller('MultipleSelectCtrl', function ($scope, $window, TemplateService, NavigationService, $timeout, $state, $stateParams, $filter, toastr) {
         var i = 0;
         $scope.getValues = function (filter, insertFirst) {
