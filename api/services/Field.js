@@ -15,6 +15,7 @@ var schema = new Schema({
         unique: true,
         uniqueCaseInsensitive: true
     },
+
     type: {
         type: String
 

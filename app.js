@@ -24,7 +24,9 @@ process.chdir(__dirname);
 var mongoose;
 mongoose = require('mongoose');
 
+
 global["database"] = "schemaCreator";
+
 mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost:27017/' + database, {
     useMongoClient: true,
