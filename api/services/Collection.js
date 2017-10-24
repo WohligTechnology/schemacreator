@@ -87,7 +87,8 @@ schema.plugin(timestamps);
 module.exports = mongoose.model('Collection', schema);
 var fs = require('fs');
 var exports = _.cloneDeep(require("sails-wohlig-service")(schema,"project type","project type"));
-var model = {generateProject: (data,cb)=>{
+var model = {
+    generateProject: (data,cb)=>{
     Collection.find({
         "project":data._id
     }).exec((err,result)=>{
@@ -159,13 +160,13 @@ var model = {generateProject: (data,cb)=>{
                     if(err){
                         cb(err);
                     }else{
-                        console.log("executing filestream",collectionresults.view)
+                        // console.log("executing filestream",collectionresults.view)
                     
-                        var json = JSON.stringify(collectionresults.view); 
+                        var json = JSON.stringify(collectionresults.view,undefined,4); 
                         fs.writeFile('CREATEDJSON/'+collectionresults.view.title+'.json', json);
-                        var json = JSON.stringify(collectionresults.create); 
+                        var json = JSON.stringify(collectionresults.create,undefined,4); 
                         fs.writeFile('CREATEDJSON/'+collectionresults.create.title+'.json', json);
-                        var json = JSON.stringify(collectionresults.edit); 
+                        var json = JSON.stringify(collectionresults.edit,undefined,4); 
                         fs.writeFile('CREATEDJSON/'+collectionresults.edit.title+'.json', json);
                     
                 }
