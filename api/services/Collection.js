@@ -89,6 +89,7 @@ var fs = require('fs');
 var exports = _.cloneDeep(require("sails-wohlig-service")(schema,"project type","project type"));
 var model = {
     generateProject: (data,cb)=>{
+// console.log("done")
     Collection.find({
         "project":data._id
     }).exec((err,result)=>{
@@ -97,6 +98,7 @@ var model = {
             console.log("result",result);
             cb("there was some error");
         }else{
+          console.log("##################",result[0].collectionFields);
             async.each(result,(collection,callback)=>{
                 async.parallel({
                     view: function(callback){
@@ -116,7 +118,7 @@ var model = {
                                 vft.tableRef = collection.collectionFields[i].name;
                                 viewobj.fields.push(vft);
                             }
-                          
+
                         }
                         callback(null,viewobj);
                     },
@@ -124,18 +126,37 @@ var model = {
                         var createobj = {};
                         createobj.fields = [];
                         createobj.action = [];
+                        createobj.action[0] = {};
                         createobj.title = "create"+collection.name;
+                        createobj.name = collection.name;
+                        createobj.jsonPage = "view"+collection.name;
                         createobj.description = "";
                         createobj.pageType = "create";
-                        createobj.sendIdWithCreate = true;
-                        createobj.urlFields = ["_id"];
+                        createobj.urlFields = [collection.name];
                         for(var i=0;i<=collection.collectionFields.length - 1;i++){
                                 var cft = {}
                                 cft.name = collection.collectionFields[i].name;
+                                cft.type = collection.collectionFields[i].type;
                                 cft.isSort= "";
+                                cft.id = collection.collectionFields[i].name;
+                                cft.placeHolder = "Enter "+collection.collectionFields[i].name;
                                 cft.tableRef = collection.collectionFields[i].name;
+                                cft.validation = collection.collectionFields[i].validations;
+                                cft.url = collection.collectionFields[i].url;
                                 createobj.fields.push(cft);
                             }
+                            createobj.action[0].name = "submit";
+                            createobj.action[0].action = "submit"+collection.name;
+                            createobj.action[0].stateName = {
+                              "page":"page",
+                              "json":{
+                                "id":"view"+collection.name
+                              }
+                            };
+                            createobj.apiCall = {
+                              "url": collection.name+"/save"
+                            }
+
                             callback(null,createobj);
                     },
                     edit: function(callback){
@@ -161,14 +182,14 @@ var model = {
                         cb(err);
                     }else{
                         // console.log("executing filestream",collectionresults.view)
-                    
-                        var json = JSON.stringify(collectionresults.view,undefined,4); 
+
+                        var json = JSON.stringify(collectionresults.view,undefined,4);
                         fs.writeFile('CREATEDJSON/'+collectionresults.view.title+'.json', json);
-                        var json = JSON.stringify(collectionresults.create,undefined,4); 
+                        var json = JSON.stringify(collectionresults.create,undefined,4);
                         fs.writeFile('CREATEDJSON/'+collectionresults.create.title+'.json', json);
-                        var json = JSON.stringify(collectionresults.edit,undefined,4); 
+                        var json = JSON.stringify(collectionresults.edit,undefined,4);
                         fs.writeFile('CREATEDJSON/'+collectionresults.edit.title+'.json', json);
-                    
+
                 }
                 })
                 callback();
@@ -179,7 +200,7 @@ var model = {
                     cb(null,result)
                 }
             })
-           
+
         }
     })
 }};
