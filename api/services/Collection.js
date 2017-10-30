@@ -223,7 +223,9 @@ var model = {
                             callback(null,createobj);
                     },
                     edit: function(callback){
-                       if(collection.isEdit===true){
+                       
+                       if(collection.isEdit==true){
+                        console.log("isedit::::::",collection.isEdit)
                         var editobj = {};
                         editobj.fields = [];
                         editobj.action = [];
@@ -249,13 +251,13 @@ var model = {
                     if(err){
                         cb(err);
                     }else{
-                         console.log("executing filestream",collectionresults.view)
+                         console.log("executing filestream",collectionresults.edit)
 
                         var json = JSON.stringify(collectionresults.view,undefined,4);
                         fs.writeFile('CREATEDJSON/'+collectionresults.view.title+'.json', json);
                         var json = JSON.stringify(collectionresults.create,undefined,4);
                         fs.writeFile('CREATEDJSON/'+collectionresults.create.title+'.json', json);
-                        if(collection.edit == undefined){
+                        if(collectionresults.edit == undefined){
 
                         }else{
                             var json = JSON.stringify(collectionresults.edit,undefined,4);
