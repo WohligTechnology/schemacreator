@@ -51,7 +51,7 @@ var schema = new Schema({
         },
         type: {
             type: Schema.Types.ObjectId,
-            ref: "Field"
+            ref: "Type"
         },
         validations: {
             type: String
@@ -64,13 +64,11 @@ var schema = new Schema({
         },
         isView: {
             type: Boolean,
-            default: true,
-            enum: [true, false]
+        
         },
         isHidden: {
             type: Boolean,
-            default: true,
-            enum: [true, false]
+            
         }
     }]
 });
@@ -86,7 +84,7 @@ schema.plugin(uniqueValidator);
 schema.plugin(timestamps);
 module.exports = mongoose.model('Collection', schema);
 var fs = require('fs');
-var exports = _.cloneDeep(require("sails-wohlig-service")(schema,"project type","project type"));
+var exports = _.cloneDeep(require("sails-wohlig-service")(schema,"project Types","project Types"));
 var model = {
     generateProject: (data,cb)=>{
 // console.log("done")
@@ -105,6 +103,7 @@ var model = {
                         var viewobj = {};
                         viewobj.fields = [];
                         viewobj.action = [];
+                        viewobj.button = [];
                         viewobj.title = "view"+collection.name;
                         viewobj.description = "list of "+collection.name;
                         viewobj.pageType = "view";
@@ -120,6 +119,70 @@ var model = {
                             }
 
                         }
+                        if(collection.isEdit == true){
+                            var tempedit = {
+                                "name": "edit",
+                                "icon": "fa-pencil",
+                                "buttonClass": "btn-primary",
+                                "type": "page",
+                                "action": "edit"+collection.name,
+                                "fieldsToSend": {
+                                    "_id": "_id"
+                                }
+                            }
+                            var createbtn = {
+                                "name": "Create",
+                                "icon": "plus",
+                                "class": "btn-success",
+                                "type": "page",
+                                "action": "create"+collection.name
+                            }
+                            viewobj.action.push(tempedit); 
+                            viewobj.button.push(createbtn);
+                        }
+                        if(collection.isDelete == true){
+                            var tempdel = {
+                                "name": "delete",
+                                "icon": "fa-trash",
+                                "buttonClass": "btn-danger",
+                                "type": "apiCallConfirm",
+                                "title": "Delete Product",
+                                "content": "Are you sure you want to delete Product?",
+                                "api": collection.name+"/delete",
+                                "fieldsToSend": {
+                                    "name": "_id",
+                                    "value": "_id"
+                                }
+                            }
+                            viewobj.action.push(tempdel);
+                        }
+                        if(collection.isExcelImport == true){
+                            var tempei = {
+                                "name": "Upload Excel",
+                                "icon": "delete",
+                                "class": "btn-warning",
+                                "type": "redirect",
+                                "action": "excel-upload/"+collection.name,
+                                "linkType": "internal"
+                            }
+                            viewobj.button.push(tempei);
+                        }
+                        if(collection.isExcelExport == true){
+                            var tempee = {
+                                "name": "Excel Export",
+                                "icon": "print",
+                                "class": "btn-danger",
+                                "type": "redirect",
+                                "action": collection.name+"/generateExcel",
+                                "linkType": "admin"
+                            }
+                            viewobj.button.push(tempee);
+                        }
+                        viewobj.apiCall= {
+                            "url": collection.name+"/search",
+                            "params": "_id"
+                        }
+                        
                         callback(null,viewobj);
                     },
                     create: function(callback){
@@ -160,6 +223,7 @@ var model = {
                             callback(null,createobj);
                     },
                     edit: function(callback){
+                       if(collection.isEdit===true){
                         var editobj = {};
                         editobj.fields = [];
                         editobj.action = [];
@@ -174,21 +238,30 @@ var model = {
                             eft.isSort= "";
                             eft.tableRef = collection.collectionFields[i].name;
                             editobj.fields.push(eft);
+                        
                         }
-                        callback(null,editobj);
+                        callback(null,editobj)
+                    }else{
+                        callback(null,undefined);
+                    }
                     }
                 },function(err, collectionresults){
                     if(err){
                         cb(err);
                     }else{
-                        // console.log("executing filestream",collectionresults.view)
+                         console.log("executing filestream",collectionresults.view)
 
                         var json = JSON.stringify(collectionresults.view,undefined,4);
                         fs.writeFile('CREATEDJSON/'+collectionresults.view.title+'.json', json);
                         var json = JSON.stringify(collectionresults.create,undefined,4);
                         fs.writeFile('CREATEDJSON/'+collectionresults.create.title+'.json', json);
-                        var json = JSON.stringify(collectionresults.edit,undefined,4);
-                        fs.writeFile('CREATEDJSON/'+collectionresults.edit.title+'.json', json);
+                        if(collection.edit == undefined){
+
+                        }else{
+                            var json = JSON.stringify(collectionresults.edit,undefined,4);
+                            fs.writeFile('CREATEDJSON/'+collectionresults.edit.title+'.json', json);
+                        }
+                        
 
                 }
                 })
