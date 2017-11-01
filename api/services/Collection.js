@@ -88,9 +88,63 @@ var exports = _.cloneDeep(require("sails-wohlig-service")(schema,"project Types"
 var model = {
     generateProject: (data,cb)=>{
 // console.log("done")
-    Collection.find({
-        "project":data._id
-    }).exec((err,result)=>{
+Collection.aggregate(
+    
+        // Pipeline
+        [
+            // Stage 1
+            {
+                $match: {
+                "project":ObjectId("59df979198334e02d619e4d3")
+                }
+            },
+    
+            // Stage 2
+            {
+                $unwind: {
+                    path : "$collectionFields",
+                    includeArrayIndex : "arrayIndex", // optional
+                    preserveNullAndEmptyArrays : true // optional
+                }
+            },
+    
+            // Stage 3
+            {
+                $lookup: {
+                    "from" : "types",
+                    "localField" : "collectionFields.type",
+                    "foreignField" : "_id",
+                    "as" : "collectionFields.type"
+                }
+            },
+    
+            // Stage 4
+            {
+                $unwind: {
+                    path : "$collectionFields.type",
+                    includeArrayIndex : "arrayIndex", // optional
+                    preserveNullAndEmptyArrays : false // optional
+                }
+            },
+    
+            // Stage 5
+            {
+                $group: {
+                 _id:"$name",
+                 name:{
+                 $first:"$name"
+                 },
+                 collectionFields:{
+                 $push:"$collectionFields"
+                 }
+                }
+            },
+    
+        ]
+    
+        // Created with Studio 3T, the IDE for MongoDB - https://studio3t.com/
+    
+    ).exec((err,result)=>{
         if(err || _.isEmpty(result)){
             console.log("error:", err);
             console.log("result",result);
@@ -199,7 +253,7 @@ var model = {
                         for(var i=0;i<=collection.collectionFields.length - 1;i++){
                                 var cft = {}
                                 cft.name = collection.collectionFields[i].name;
-                                cft.type = collection.collectionFields[i].type;
+                                cft.type = collection.collectionFields[i].type.name;
                                 cft.isSort= "";
                                 cft.id = collection.collectionFields[i].name;
                                 cft.placeHolder = "Enter "+collection.collectionFields[i].name;
