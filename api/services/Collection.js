@@ -64,11 +64,11 @@ var schema = new Schema({
         },
         isView: {
             type: Boolean,
-        
+
         },
         isHidden: {
             type: Boolean,
-            
+
         }
     }]
 });
@@ -89,7 +89,7 @@ var model = {
     generateProject: (data,cb)=>{
 // console.log("done")
 Collection.aggregate(
-    
+
         // Pipeline
         [
             // Stage 1
@@ -98,7 +98,7 @@ Collection.aggregate(
                 "project":ObjectId("59df979198334e02d619e4d3")
                 }
             },
-    
+
             // Stage 2
             {
                 $unwind: {
@@ -107,7 +107,7 @@ Collection.aggregate(
                     preserveNullAndEmptyArrays : true // optional
                 }
             },
-    
+
             // Stage 3
             {
                 $lookup: {
@@ -117,7 +117,7 @@ Collection.aggregate(
                     "as" : "collectionFields.type"
                 }
             },
-    
+
             // Stage 4
             {
                 $unwind: {
@@ -126,7 +126,7 @@ Collection.aggregate(
                     preserveNullAndEmptyArrays : false // optional
                 }
             },
-    
+
             // Stage 5
             {
                 $group: {
@@ -139,11 +139,11 @@ Collection.aggregate(
                  }
                 }
             },
-    
+
         ]
-    
+
         // Created with Studio 3T, the IDE for MongoDB - https://studio3t.com/
-    
+
     ).exec((err,result)=>{
         if(err || _.isEmpty(result)){
             console.log("error:", err);
@@ -191,7 +191,7 @@ Collection.aggregate(
                                 "type": "page",
                                 "action": "create"+collection.name
                             }
-                            viewobj.action.push(tempedit); 
+                            viewobj.action.push(tempedit);
                             viewobj.button.push(createbtn);
                         }
                         if(collection.isDelete == true){
@@ -236,10 +236,11 @@ Collection.aggregate(
                             "url": collection.name+"/search",
                             "params": "_id"
                         }
-                        
+
                         callback(null,viewobj);
                     },
                     create: function(callback){
+                      if(collection.isEdit == true){
                         var createobj = {};
                         createobj.fields = [];
                         createobj.action = [];
@@ -273,16 +274,20 @@ Collection.aggregate(
                             createobj.apiCall = {
                               "url": collection.name+"/save"
                             }
-
                             callback(null,createobj);
+                          }else{
+                            callback(null,undefined)
+                          }
+
                     },
                     edit: function(callback){
-                       
+
                        if(collection.isEdit==true){
                         console.log("isedit::::::",collection.isEdit)
                         var editobj = {};
                         editobj.fields = [];
                         editobj.action = [];
+                        editobj.action[0] = {};
                         editobj.title = "edit"+collection.name;
                         editobj.description = "";
                         editobj.pageType = "edit";
@@ -291,11 +296,32 @@ Collection.aggregate(
                         for(var i=0;i<=collection.collectionFields.length - 1;i++){
                             var eft = {}
                             eft.name = collection.collectionFields[i].name;
+                            eft.type = collection.collectionFields[i].type.name;
                             eft.isSort= "";
                             eft.tableRef = collection.collectionFields[i].name;
+                            eft.id = collection.collectionFields[i].name;
+                            eft.placeHolder = "Enter "+collection.collectionFields[i].name;
+                            eft.validation = collection.collectionFields[i].validations;
+                            eft.url = collection.collectionFields[i].url;
                             editobj.fields.push(eft);
-                        
+
                         }
+                        editobj.action[0].name = "save";
+                        editobj.action[0].action = "save"+collection.name;
+                        editobj.action[0].stateName = {
+                          "page":"page",
+                          "json":{
+                            "id":"view"+collection.name
+                          }
+                        };
+                        editobj.apiCall = {
+                          "url": collection.name+"/save",
+                          "params": "_id"
+                        }
+                        editobj.preApi = {
+                          "url": "Product/getOne",
+                          "params": "_id"
+                          }
                         callback(null,editobj)
                     }else{
                         callback(null,undefined);
@@ -309,15 +335,15 @@ Collection.aggregate(
 
                         var json = JSON.stringify(collectionresults.view,undefined,4);
                         fs.writeFile('CREATEDJSON/'+collectionresults.view.title+'.json', json);
+                        if(collectionresults.create != undefined){
                         var json = JSON.stringify(collectionresults.create,undefined,4);
                         fs.writeFile('CREATEDJSON/'+collectionresults.create.title+'.json', json);
-                        if(collectionresults.edit == undefined){
-
-                        }else{
-                            var json = JSON.stringify(collectionresults.edit,undefined,4);
-                            fs.writeFile('CREATEDJSON/'+collectionresults.edit.title+'.json', json);
+                      }
+                        if(collectionresults.edit != undefined){
+                          var json = JSON.stringify(collectionresults.edit,undefined,4);
+                          fs.writeFile('CREATEDJSON/'+collectionresults.edit.title+'.json', json);
                         }
-                        
+
 
                 }
                 })
