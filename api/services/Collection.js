@@ -95,7 +95,7 @@ Collection.aggregate(
             // Stage 1
             {
                 $match: {
-                "project":ObjectId("59df979198334e02d619e4d3")
+                "project":ObjectId(data._id)
                 }
             },
 
@@ -150,7 +150,7 @@ Collection.aggregate(
             console.log("result",result);
             cb("there was some error");
         }else{
-          console.log("##################",result[0].collectionFields);
+        //   console.log("##################",result[0].collectionFields);
             async.each(result,(collection,callback)=>{
                 async.parallel({
                     view: function(callback){
@@ -240,7 +240,7 @@ Collection.aggregate(
                         callback(null,viewobj);
                     },
                     create: function(callback){
-                      if(collection.isEdit == true){
+                      
                         var createobj = {};
                         createobj.fields = [];
                         createobj.action = [];
@@ -275,14 +275,14 @@ Collection.aggregate(
                               "url": collection.name+"/save"
                             }
                             callback(null,createobj);
-                          }else{
-                            callback(null,undefined)
-                          }
+                        //   }else{
+                        //     callback(null,undefined)
+                        //   }
 
                     },
                     edit: function(callback){
 
-                       if(collection.isEdit==true){
+                    //    if(collection.isEdit==true){
                         console.log("isedit::::::",collection.isEdit)
                         var editobj = {};
                         editobj.fields = [];
@@ -323,9 +323,9 @@ Collection.aggregate(
                           "params": "_id"
                           }
                         callback(null,editobj)
-                    }else{
-                        callback(null,undefined);
-                    }
+                    // }else{
+                    //     callback(null,undefined);
+                    // }
                     }
                 },function(err, collectionresults){
                     if(err){
