@@ -7,6 +7,7 @@ var controller = {
         }, res.socialLogin)(req, res);
     },
     loginGoogle: function (req, res) {
+        console.log("gogo",req.query)
         if (req.query.returnUrl) {
             req.session.returnUrl = req.query.returnUrl;
         } else {
@@ -14,6 +15,19 @@ var controller = {
         }
 
         passport.authenticate('google', {
+            scope: ['openid', 'profile', 'email'],
+            failureRedirect: '/'
+        }, res.socialLogin)(req, res);
+    },
+    loginGithub: function (req, res) {
+        console.log("ran",req.query)
+        if (req.query.returnUrl) {
+            req.session.returnUrl = req.query.returnUrl;
+        } else {
+
+        }
+
+        passport.authenticate('github', {
             scope: ['openid', 'profile', 'email'],
             failureRedirect: '/'
         }, res.socialLogin)(req, res);

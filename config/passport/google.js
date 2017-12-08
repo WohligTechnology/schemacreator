@@ -5,7 +5,7 @@ global["GoogleclientSecret"] = "nNZiqXW5U2364QI9--sVIR8B";
 passport.use(new GoogleStrategy({
         clientId: GoogleclientId,
         clientSecret: GoogleclientSecret,
-        callbackURL: global["env"].realHost + "/api/user/loginGoogle",
+        callbackURL: global["env"].realHost + "/api/user/loginGithub",
         accessType: "offline"
     },
     function (accessToken, refreshToken, profile, cb) {

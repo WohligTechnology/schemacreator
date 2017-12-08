@@ -51,6 +51,7 @@
     "node-xlsx": "^0.7.4",
     "passport": "^0.3.2",
     "passport-facebook": "^2.1.1",
+    "passport-github": "^1.1.0",
     "passport-google-auth": "^1.0.1",
     "passport-local": "^1.0.0",
     "passport-twitter": "^1.0.4",

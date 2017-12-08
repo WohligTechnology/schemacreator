@@ -100,7 +100,7 @@ global["LocalStrategy"] = require('passport-local').Strategy;
 global["FacebookStrategy"] = require('passport-facebook').Strategy;
 global["TwitterStrategy"] = require('passport-twitter').Strategy;
 global["GoogleStrategy"] = require('passport-google-auth').Strategy;
-
+global["GitHubStrategy"]  = require('passport-github').Strategy;
 // Files to Import
 global["jsFiles"] = require("../frontend/files.js");
 global["jsFilesBackend"] = require("../backend/files.js");
