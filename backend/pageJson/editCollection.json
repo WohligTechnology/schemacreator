@@ -57,6 +57,18 @@
         "onView": true,
         "dropDown": ["true", "false"]
     }, {
+        "name": "Is Create",
+        "type": "tags",
+        "tableRef": "isCreate",
+        "placeholder": "Enter Is Edit",
+        "id": "isCreate",
+        "validation": ["", "trim", ""],
+        "url": "",
+        "dropDownField": "",
+        "dropDownType": "single",
+        "onView": true,
+        "dropDown": ["true", "false"]
+    },{
         "name": "Is Excel Import",
         "type": "tags",
         "tableRef": "isExcelImport",

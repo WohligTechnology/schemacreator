@@ -11,7 +11,7 @@
     }, {
         "name": "Git Name",
         "isSort": "",
-        "tableRef": "gitName"
+        "tableRef": "git"
     }, {
         "name": "Development URL",
         "isSort": "",

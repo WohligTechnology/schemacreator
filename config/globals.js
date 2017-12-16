@@ -118,7 +118,7 @@ global["green"] = function (data) {
 global["log"] = function (data) {
     console.log(data);
 };
-
+global["GitHub"] = require('github-api');
 
 // sending Emails using sendgrid
 

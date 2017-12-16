@@ -34,6 +34,10 @@ var schema = new Schema({
         type: Boolean,
         default: true,
         enum: [true, false]
+    },isCreate: {
+        type: Boolean,
+        default: true,
+        enum: [true, false]
     },
     isExcelImport: {
         type: Boolean,
