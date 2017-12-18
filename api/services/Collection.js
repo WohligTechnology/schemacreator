@@ -93,7 +93,7 @@ var model = {
     generateProject: (data,cb)=>{
 // console.log("done")
 Collection.aggregate(
-
+    
         // Pipeline
         [
             // Stage 1
@@ -102,7 +102,7 @@ Collection.aggregate(
                 "project":ObjectId(data._id)
                 }
             },
-
+    
             // Stage 2
             {
                 $unwind: {
@@ -111,8 +111,64 @@ Collection.aggregate(
                     preserveNullAndEmptyArrays : true // optional
                 }
             },
-
+    
             // Stage 3
+            {
+                $lookup: // Equality Match
+                {
+                    from: "projects",
+                    localField: "project",
+                    foreignField: "_id",
+                    as: "project"
+                }
+                
+                // Uncorrelated Subqueries
+                // (supported as of MongoDB 3.6)
+                // {
+                //    from: "<collection to join>",
+                //    let: { <var_1>: <expression>, …, <var_n>: <expression> },
+                //    pipeline: [ <pipeline to execute on the collection to join> ],
+                //    as: "<output array field>"
+                // }
+            },
+    
+            // Stage 4
+            {
+                $unwind: {
+                    path : "$project",
+                   
+                }
+            },
+    
+            // Stage 5
+            {
+                $lookup: // Equality Match
+                {
+                    from: "users",
+                    localField: "project.user",
+                    foreignField: "_id",
+                    as: "user"
+                }
+                
+                // Uncorrelated Subqueries
+                // (supported as of MongoDB 3.6)
+                // {
+                //    from: "<collection to join>",
+                //    let: { <var_1>: <expression>, …, <var_n>: <expression> },
+                //    pipeline: [ <pipeline to execute on the collection to join> ],
+                //    as: "<output array field>"
+                // }
+            },
+    
+            // Stage 6
+            {
+                $unwind: {
+                    path : "$user",
+                  
+                }
+            },
+    
+            // Stage 7
             {
                 $lookup: {
                     "from" : "types",
@@ -121,8 +177,8 @@ Collection.aggregate(
                     "as" : "collectionFields.type"
                 }
             },
-
-            // Stage 4
+    
+            // Stage 8
             {
                 $unwind: {
                     path : "$collectionFields.type",
@@ -130,8 +186,8 @@ Collection.aggregate(
                     preserveNullAndEmptyArrays : false // optional
                 }
             },
-
-            // Stage 5
+    
+            // Stage 9
             {
                 $group: {
                  _id:"$name",
@@ -140,14 +196,34 @@ Collection.aggregate(
                  },
                  collectionFields:{
                  $push:"$collectionFields"
-                 }
+                 },
+                 project:{$first:"$project"
+                 },
+                 user:{
+                 $first:"$user"
+                 },
+                 isExcelExport:{
+                 $first:"$isExcelExport"
+                 },
+                 isExcelImport:{
+                 $first:"$isExcelImport"
+                 },
+                 isCreate:{
+                 $first:"$isCreate"
+                 },
+                 isEdit:{
+                 $first:"$isEdit"
+                 },
+                 isDelete:{
+                 $first:"$isDelete"
+                 },
                 }
             },
-
+    
         ]
-
+    
         // Created with Studio 3T, the IDE for MongoDB - https://studio3t.com/
-
+    
     ).exec((err,result)=>{
         if(err || _.isEmpty(result)){
             console.log("error:", err);
@@ -188,6 +264,9 @@ Collection.aggregate(
                                     "_id": "_id"
                                 }
                             }
+                            viewobj.action.push(tempedit);
+                        }
+                            if(collection.isCreate === true){
                             var createbtn = {
                                 "name": "Create",
                                 "icon": "plus",
@@ -195,9 +274,11 @@ Collection.aggregate(
                                 "type": "page",
                                 "action": "create"+collection.name
                             }
-                            viewobj.action.push(tempedit);
                             viewobj.button.push(createbtn);
                         }
+                            
+                           
+                        
                         if(collection.isDelete == true){
                             var tempdel = {
                                 "name": "delete",
@@ -244,7 +325,8 @@ Collection.aggregate(
                         callback(null,viewobj);
                     },
                     create: function(callback){
-                      
+                        if(collection.isCreate === true){
+                            
                         var createobj = {};
                         createobj.fields = [];
                         createobj.action = [];
@@ -279,14 +361,13 @@ Collection.aggregate(
                               "url": collection.name+"/save"
                             }
                             callback(null,createobj);
-                        //   }else{
-                        //     callback(null,undefined)
-                        //   }
-
+                          }else{
+                            callback(null,undefined)
+                          }
+                        
                     },
                     edit: function(callback){
-
-                    //    if(collection.isEdit==true){
+                        if(collection.isEdit==true){
                         console.log("isedit::::::",collection.isEdit)
                         var editobj = {};
                         editobj.fields = [];
@@ -327,9 +408,9 @@ Collection.aggregate(
                           "params": "_id"
                           }
                         callback(null,editobj)
-                    // }else{
-                    //     callback(null,undefined);
-                    // }
+                    }else{
+                        callback(null,undefined);
+                    }
                     }
                 },function(err, collectionresults){
                     if(err){
