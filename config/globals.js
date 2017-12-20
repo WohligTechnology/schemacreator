@@ -92,6 +92,7 @@ global["fs"] = require('fs');
 global["json2xls"] = require('json2xls');
 global["xlsx"] = require('node-xlsx').default;
 global["async"] = require('async');
+global["jetpack"] = require('fs-jetpack');
 // global["pdf"] = require('html-pdf');
 
 // passport Globals

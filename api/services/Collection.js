@@ -91,6 +91,8 @@ var fs = require('fs');
 var exports = _.cloneDeep(require("sails-wohlig-service")(schema,"project Types","project Types"));
 var model = {
     generateProject: (data,cb)=>{
+        jetpack.dir("USER");
+                
 // console.log("done")
 Collection.aggregate(
     
@@ -230,7 +232,13 @@ Collection.aggregate(
             console.log("result",result);
             cb("there was some error");
         }else{
-        //   console.log("##################",result[0].collectionFields);
+        //  console.log("##################",result[0].collectionFields);
+        // jetpack.dir("USER/"+result[0].user.name);
+        jetpack.copy("framework","USER/"+result[0].user.name+"/"+result[0].project.name,{
+            overwrite: (srcInspectData, destInspectData) => {
+              return srcInspectData.modifyTime > destInspectData.modifyTime;
+            }
+          })
             async.each(result,(collection,callback)=>{
                 async.parallel({
                     view: function(callback){
@@ -338,14 +346,15 @@ Collection.aggregate(
                         createobj.pageType = "create";
                         createobj.urlFields = [collection.name];
                         for(var i=0;i<=collection.collectionFields.length - 1;i++){
-                                var cft = {}
+                                var cft = {};
+                                cft.validation=[];
                                 cft.name = collection.collectionFields[i].name;
                                 cft.type = collection.collectionFields[i].type.name;
                                 cft.isSort= "";
                                 cft.id = collection.collectionFields[i].name;
                                 cft.placeHolder = "Enter "+collection.collectionFields[i].name;
                                 cft.tableRef = collection.collectionFields[i].name;
-                                cft.validation = collection.collectionFields[i].validations;
+                                cft.validation.push(collection.collectionFields[i].validations);                                
                                 cft.url = collection.collectionFields[i].url;
                                 createobj.fields.push(cft);
                             }
@@ -380,13 +389,14 @@ Collection.aggregate(
                         editobj.urlFields = ["_id"];
                         for(var i=0;i<=collection.collectionFields.length - 1;i++){
                             var eft = {}
+                            eft.validation=[];
                             eft.name = collection.collectionFields[i].name;
                             eft.type = collection.collectionFields[i].type.name;
                             eft.isSort= "";
                             eft.tableRef = collection.collectionFields[i].name;
                             eft.id = collection.collectionFields[i].name;
                             eft.placeHolder = "Enter "+collection.collectionFields[i].name;
-                            eft.validation = collection.collectionFields[i].validations;
+                            eft.validation.push(collection.collectionFields[i].validations);
                             eft.url = collection.collectionFields[i].url;
                             editobj.fields.push(eft);
 
@@ -404,7 +414,7 @@ Collection.aggregate(
                           "params": "_id"
                         }
                         editobj.preApi = {
-                          "url": "Product/getOne",
+                          "url": collection.name+"/getOne",
                           "params": "_id"
                           }
                         callback(null,editobj)
@@ -417,16 +427,16 @@ Collection.aggregate(
                         cb(err);
                     }else{
                          console.log("executing filestream",collectionresults.edit)
-
+                        var path = "USER/"+result[0].user.name+"/"+result[0].project.name+"/backend/pageJson/"
                         var json = JSON.stringify(collectionresults.view,undefined,4);
-                        fs.writeFile('CREATEDJSON/'+collectionresults.view.title+'.json', json);
+                        fs.writeFile(path+collectionresults.view.title+'.json', json);
                         if(collectionresults.create != undefined){
                         var json = JSON.stringify(collectionresults.create,undefined,4);
-                        fs.writeFile('CREATEDJSON/'+collectionresults.create.title+'.json', json);
+                        fs.writeFile(path+collectionresults.create.title+'.json', json);
                       }
                         if(collectionresults.edit != undefined){
                           var json = JSON.stringify(collectionresults.edit,undefined,4);
-                          fs.writeFile('CREATEDJSON/'+collectionresults.edit.title+'.json', json);
+                          fs.writeFile(path+collectionresults.edit.title+'.json', json);
                         }
 
 
