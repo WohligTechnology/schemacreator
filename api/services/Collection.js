@@ -445,26 +445,33 @@ Collection.aggregate(
                           fs.writeFile(path+collectionresults.edit.title+'.json', json);
                         }
                       
-                        exec("cd Project/"+result[0].project._id, (error, stdout, stderr)=>{
-                            if (error) {
-                                console.error(`exec error: ${error}`);
+                        require('simple-git')()
+     .init()
+     .add('./*')
+     .commit("first commit!")
+     .addRemote('origin', 'https://github.com/bhargavpurohit/firstrepo.git')
+     .push('origin', 'master');
+
+                        // exec("cd Project/"+result[0].project._id, (error, stdout, stderr)=>{
+                        //     if (error) {
+                        //         console.error(`exec error: ${error}`);
                                 
-                              }
-                              console.log(`stdout: ${stdout}`);
-                              console.log(`stderr: ${stderr}`);
-                        });
-                        exec("git init");
-                        exec("git add *")
-                        exec("git commit -m 'first commit'");
-                        exec("git remote add origin https://github.com/Bhargavpurohit/firstrepo.git");
-                        exec("git push -u origin master",(error, stdout, stderr)=>{
-                            if (error) {
-                                console.error(`exec error: ${error}`);
+                        //       }
+                        //       console.log(`stdout: ${stdout}`);
+                        //       console.log(`stderr: ${stderr}`);
+                        // });
+                        
+                        // exec("git add *")
+                        // exec("git commit -m 'first commit'");
+                        
+                        // exec("git push ",(error, stdout, stderr)=>{
+                        //     if (error) {
+                        //         console.error(`exec error: ${error}`);
                                 
-                              }
-                              console.log(`stdout: ${stdout}`);
-                              console.log(`stderr: ${stderr}`);
-                        })
+                        //       }
+                        //       console.log(`stdout: ${stdout}`);
+                        //       console.log(`stderr: ${stderr}`);
+                        // })
                        
 
 
