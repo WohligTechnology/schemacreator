@@ -445,33 +445,28 @@ Collection.aggregate(
                           fs.writeFile(path+collectionresults.edit.title+'.json', json);
                         }
                       
-                        require('simple-git')()
-     .init()
-     .add('./*')
-     .commit("first commit!")
-     .addRemote('origin', 'https://github.com/bhargavpurohit/firstrepo.git')
-     .push('origin', 'master');
+                       
 
-                        // exec("cd Project/"+result[0].project._id, (error, stdout, stderr)=>{
-                        //     if (error) {
-                        //         console.error(`exec error: ${error}`);
+                        exec("cd Project/"+result[0].project._id, (error, stdout, stderr)=>{
+                            if (error) {
+                                console.error(`exec error: ${error}`);
                                 
-                        //       }
-                        //       console.log(`stdout: ${stdout}`);
-                        //       console.log(`stderr: ${stderr}`);
-                        // });
+                              }
+                              console.log(`stdout: ${stdout}`);
+                              console.log(`stderr: ${stderr}`);
+                        });
+                        exec("echo '# firstrepo' >> README.md")
+                        exec("git add *")
+                        exec("git commit -m 'first commit'");
                         
-                        // exec("git add *")
-                        // exec("git commit -m 'first commit'");
-                        
-                        // exec("git push ",(error, stdout, stderr)=>{
-                        //     if (error) {
-                        //         console.error(`exec error: ${error}`);
+                        exec("git push ",(error, stdout, stderr)=>{
+                            if (error) {
+                                console.error(`exec error: ${error}`);
                                 
-                        //       }
-                        //       console.log(`stdout: ${stdout}`);
-                        //       console.log(`stderr: ${stderr}`);
-                        // })
+                              }
+                              console.log(`stdout: ${stdout}`);
+                              console.log(`stderr: ${stderr}`);
+                        })
                        
 
 
