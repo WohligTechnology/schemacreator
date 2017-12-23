@@ -91,7 +91,7 @@ var fs = require('fs');
 var exports = _.cloneDeep(require("sails-wohlig-service")(schema,"project Types","project Types"));
 var model = {
     generateProject: (data,cb)=>{
-        jetpack.dir("USER");
+        // console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$",data)
                 
 // console.log("done")
 Collection.aggregate(
@@ -232,9 +232,15 @@ Collection.aggregate(
             console.log("result",result);
             cb("there was some error");
         }else{
-        //  console.log("##################",result[0].collectionFields);
-        // jetpack.dir("USER/"+result[0].user.name);
-        jetpack.copy("framework","USER/"+result[0].user.name+"/"+result[0].project.name,{
+        // console.log("accesstoken::::::::::::::::###############",data.accessToken)
+        var github = new GitHub({
+            token: data.accessToken,
+            auth: "oauth"
+          });
+          var repo = github.getRepo("Bhargavpurohit", "firstrepo");
+          console.log("repo::::::::::::::::::::::::::::::::::::::::::::::::::::::",repo)
+          
+        jetpack.copy("framework","Project/"+result[0].project._id,{
             overwrite: (srcInspectData, destInspectData) => {
               return srcInspectData.modifyTime > destInspectData.modifyTime;
             }
@@ -377,7 +383,7 @@ Collection.aggregate(
                     },
                     edit: function(callback){
                         if(collection.isEdit==true){
-                        console.log("isedit::::::",collection.isEdit)
+                        // console.log("isedit::::::",collection.isEdit)
                         var editobj = {};
                         editobj.fields = [];
                         editobj.action = [];
@@ -426,8 +432,8 @@ Collection.aggregate(
                     if(err){
                         cb(err);
                     }else{
-                         console.log("executing filestream",collectionresults.edit)
-                        var path = "USER/"+result[0].user.name+"/"+result[0].project.name+"/backend/pageJson/"
+                        //  console.log("executing filestream",collectionresults.edit)
+                        var path = "Project/"+result[0].project._id+"/backend/pageJson/"
                         var json = JSON.stringify(collectionresults.view,undefined,4);
                         fs.writeFile(path+collectionresults.view.title+'.json', json);
                         if(collectionresults.create != undefined){
@@ -438,6 +444,28 @@ Collection.aggregate(
                           var json = JSON.stringify(collectionresults.edit,undefined,4);
                           fs.writeFile(path+collectionresults.edit.title+'.json', json);
                         }
+                      
+                        exec("cd Project/"+result[0].project._id, (error, stdout, stderr)=>{
+                            if (error) {
+                                console.error(`exec error: ${error}`);
+                                
+                              }
+                              console.log(`stdout: ${stdout}`);
+                              console.log(`stderr: ${stderr}`);
+                        });
+                        exec("git init");
+                        exec("git add *")
+                        exec("git commit -m 'first commit'");
+                        exec("git remote add origin https://github.com/Bhargavpurohit/firstrepo.git");
+                        exec("git push -u origin master",(error, stdout, stderr)=>{
+                            if (error) {
+                                console.error(`exec error: ${error}`);
+                                
+                              }
+                              console.log(`stdout: ${stdout}`);
+                              console.log(`stderr: ${stderr}`);
+                        })
+                       
 
 
                 }

@@ -80,6 +80,7 @@ myApp.factory('NavigationService', function ($http) {
             });
         },
         countrySave: function (formData, callback) {
+            formData.accessToken =$.jStorage.get("accessToken")
             $http.post(adminurl + 'country/save', formData).then(function (data) {
                 data = data.data;
                 callback(data);
@@ -88,6 +89,7 @@ myApp.factory('NavigationService', function ($http) {
         },
 
         apiCall: function (url, formData, callback) {
+            formData.accessToken =$.jStorage.get("accessToken")
             $http.post(adminurl + url, formData).then(function (data) {
                 data = data.data;
                 callback(data);

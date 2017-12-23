@@ -1,0 +1,54 @@
+{
+    "fields": [
+        {
+            "name": "Name",
+            "isSort": "",
+            "tableRef": "Name"
+        }
+    ],
+    "action": [
+        {
+            "name": "edit",
+            "icon": "fa-pencil",
+            "buttonClass": "btn-primary",
+            "type": "page",
+            "action": "editname",
+            "fieldsToSend": {
+                "_id": "_id"
+            }
+        },
+        {
+            "name": "delete",
+            "icon": "fa-trash",
+            "buttonClass": "btn-danger",
+            "type": "apiCallConfirm",
+            "title": "Delete Product",
+            "content": "Are you sure you want to delete Product?",
+            "api": "name/delete",
+            "fieldsToSend": {
+                "name": "_id",
+                "value": "_id"
+            }
+        }
+    ],
+    "button": [
+        {
+            "name": "Create",
+            "icon": "plus",
+            "class": "btn-success",
+            "type": "page",
+            "action": "createname"
+        }
+    ],
+    "title": "viewname",
+    "description": "list of name",
+    "pageType": "view",
+    "sendIdWithCreate": true,
+    "urlFields": [
+        "_id"
+    ],
+    "apiCall": {
+        "url": "name/search",
+        "params": "_id"
+    }
+}

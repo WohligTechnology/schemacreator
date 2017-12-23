@@ -357,7 +357,7 @@ myApp.controller('DashboardCtrl', function ($scope, TemplateService, NavigationS
              formData.accesstoken = $.jStorage.get("accessToken")
             console.log("saveData",formData)
             NavigationService.apiCall($scope.json.json.apiCall.url, formData, function (data) {
-                console.log(data)
+                console.log("response from server",data)
                 var messText = "created";
                 if (data.value === true) {
                     $scope.json.json.action[0].stateName.json.keyword = "";

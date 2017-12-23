@@ -112,6 +112,7 @@ myApp.service('JsonService', function ($http, TemplateService, $state, toastr, $
           }
         });
       }else if (action && action.type == "generateProject") {
+        value.accessToken =$.jStorage.get("accessToken")
         NavigationService.delete(action.api, value, function (data) {
           console.log(data);
               if (data.value) {
