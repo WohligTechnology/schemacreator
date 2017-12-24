@@ -16,7 +16,7 @@
     }, {
         "name": "Git Name",
         "type": "text",
-        "tableRef": "git",
+        "tableRef": "gitName",
         "placeholder": "Enter Git Name",
         "id": "gitName",
         "validation": ["", "trim", ""],
