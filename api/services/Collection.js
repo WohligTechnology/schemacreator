@@ -233,14 +233,14 @@ Collection.aggregate(
             cb("there was some error");
         }else{
         // console.log("accesstoken::::::::::::::::###############",data.accessToken)
-        var github = new GitHub({
-            token: data.accessToken,
-            auth: "oauth"
-          });
-          var repo = github.getRepo("Bhargavpurohit", "firstrepo");
-          console.log("repo::::::::::::::::::::::::::::::::::::::::::::::::::::::",repo)
+        // var github = new GitHub({
+        //     token: data.accessToken,
+        //     auth: "oauth"
+        //   });
+        //   var repo = github.getRepo("Bhargavpurohit", "firstrepo");
+        //   console.log("repo::::::::::::::::::::::::::::::::::::::::::::::::::::::",repo)
           
-        jetpack.copy("framework","Project/"+result[0].project._id,{
+        jetpack.copy("framework","../Project/"+result[0].project._id,{
             overwrite: (srcInspectData, destInspectData) => {
               return srcInspectData.modifyTime > destInspectData.modifyTime;
             }
@@ -432,41 +432,66 @@ Collection.aggregate(
                     if(err){
                         cb(err);
                     }else{
-                        //  console.log("executing filestream",collectionresults.edit)
-                        var path = "Project/"+result[0].project._id+"/backend/pageJson/"
-                        var json = JSON.stringify(collectionresults.view,undefined,4);
-                        fs.writeFile(path+collectionresults.view.title+'.json', json);
-                        if(collectionresults.create != undefined){
-                        var json = JSON.stringify(collectionresults.create,undefined,4);
-                        fs.writeFile(path+collectionresults.create.title+'.json', json);
-                      }
-                        if(collectionresults.edit != undefined){
-                          var json = JSON.stringify(collectionresults.edit,undefined,4);
-                          fs.writeFile(path+collectionresults.edit.title+'.json', json);
+                        jetpack.copy("framework","../Project/"+result[0].project._id,{
+                            overwrite: (srcInspectData, destInspectData) => {
+                              return srcInspectData.modifyTime > destInspectData.modifyTime;
+                            }
+                            
+                          })
+
+                          var path = "../Project/"+result[0].project._id+"/backend/pageJson/"
+                          var json = JSON.stringify(collectionresults.view,undefined,4);
+                          fs.writeFile(path+collectionresults.view.title+'.json', json);
+                          if(collectionresults.create != undefined){
+                          var json = JSON.stringify(collectionresults.create,undefined,4);
+                          fs.writeFile(path+collectionresults.create.title+'.json', json);
                         }
-                      
+                          if(collectionresults.edit != undefined){
+                            var json = JSON.stringify(collectionresults.edit,undefined,4);
+                            fs.writeFile(path+collectionresults.edit.title+'.json', json);
+                          }
+                        
+                          exec("cd ../Project/"+result[0].project._id +" && "+ "git init" +" && "+ "echo '# first' >> README.md" +" && "+ "git add ."+ " && " +"git commit -m 'firstcommit'"+ " && "  +"git remote add origin https://github.com/Bhargavpurohit/first.git"+ " && " +"git push -u origin master",(error, stdout, stderr)=>{
+                                 if (error) {
+                                     console.error(`exec error: ${error}`);
+                                      
+                                   }
+                                   exec("cd ../Project/"+result[0].project._id+"/"+ " && " +"git remote -v",(error, stdout, stderr)=>{
+                                    if (error) {
+                                        console.error(`exec error: ${error}`);
+                                         
+                                      }
+                                      console.log(`stdout: ${stdout}`);
+                                       console.log(`stderr: ${stderr}`);
+                                 })
+                                   console.log(`stdout: ${stdout}`);
+                                    console.log(`stderr: ${stderr}`);
+                              })
+                             
+
+                        //  console.log("executing filestream",collectionresults.edit)
                        
 
-                        exec("cd Project/"+result[0].project._id, (error, stdout, stderr)=>{
-                            if (error) {
-                                console.error(`exec error: ${error}`);
+                        // exec("cd Project/"+result[0].project._id, (error, stdout, stderr)=>{
+                        //     if (error) {
+                        //         console.error(`exec error: ${error}`);
                                 
-                              }
-                              console.log(`stdout: ${stdout}`);
-                              console.log(`stderr: ${stderr}`);
-                        });
-                        exec("echo '# firstrepo' >> README.md")
-                        exec("git add *")
-                        exec("git commit -m 'first commit'");
+                        //       }
+                        //       console.log(`stdout: ${stdout}`);
+                        //       console.log(`stderr: ${stderr}`);
+                        // });
+                        // exec("echo '# firstrepo' >> README.md")
+                        // exec("git add *")
+                        // exec("git commit -m 'first commit'");
                         
-                        exec("git push ",(error, stdout, stderr)=>{
-                            if (error) {
-                                console.error(`exec error: ${error}`);
+                        // exec("git push ",(error, stdout, stderr)=>{
+                        //     if (error) {
+                        //         console.error(`exec error: ${error}`);
                                 
-                              }
-                              console.log(`stdout: ${stdout}`);
-                              console.log(`stderr: ${stderr}`);
-                        })
+                        //       }
+                        //       console.log(`stdout: ${stdout}`);
+                        //       console.log(`stderr: ${stderr}`);
+                        // })
                        
 
 
